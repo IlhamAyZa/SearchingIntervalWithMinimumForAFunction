@@ -1,6 +1,6 @@
 package posection;
 
-public class Function {
+public abstract class Function {
     
     private int coeficient;
     private int freeNum;
@@ -10,6 +10,9 @@ public class Function {
         this.freeNum = freeNum;
     }
 
+    public Function() {
+    }
+    
     public int getCoeficient() {
         return coeficient;
     }
