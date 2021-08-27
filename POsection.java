@@ -1,5 +1,6 @@
 package posection;
 
+import java.util.Scanner;
 import posection.functionTypes.*;
 
 public class POsection {
@@ -9,50 +10,43 @@ public class POsection {
         Function funct = new QuadraticFunction(2, 1, 5);
         //Random rand = new Random();
         //double x = rand.nextDouble() * 10;
-        double x = 2;
-        double accuracy = 0.1;
+        Scanner scn = new Scanner(System.in);
+        double x = -12;
+        double accuracy = scn.nextDouble();
+        double num1 = funct.getValueAtX(x - accuracy), num2 = funct.getValueAtX(x), num3 = funct.getValueAtX(x + accuracy);
 
-        double startingDiffSign = sign(funct.getValueAtX(x + 1) - funct.getValueAtX(x));
-        System.out.println("Sign at start: " + startingDiffSign + ", starting x = " + x);
-        
-        double diffSign;
         System.out.println(funct.toString());
-        System.out.println("");
-        
-        switch ((int) (startingDiffSign)) {
-            case (-1):
-                diffSign = -1;
-                while (diffSign == -1) {
-                    diffSign = sign(funct.getValueAtX(x) - funct.getValueAtX(x - accuracy));
-                    System.out.println("diffSign = " + diffSign + " , x = " + x);
-                    x+=accuracy;
-                }
-                System.out.println("The required section is ( " + (x-2*accuracy) + ", " + (x-accuracy) + " )");
+
+        if (num1 > num2 && num2 < num3) {
+            System.out.println("CASE C");
+            System.out.println("Interval: (" + (x - accuracy) + " , " + (x + accuracy) + ")");
+        } 
+        else if (num1 > num2 && num2 > num3) {
+            System.out.println("CASE A");
+            do {                
+                x += accuracy;
+                num1 = num2;
+                num2 = num3;
+                num3 = funct.getValueAtX(x + accuracy);
                 
-            case (0):
-                System.out.println("Function is linear and parallel to the x axis.");
-                System.out.println("It has no points of minimum");
+            } while(num1 > num3);
+            //System.out.println(x);
+            System.out.println("Interval: (" + (x - accuracy) + " , " + (x + accuracy) + ")");
+        }
+        else if (num1 < num2 && num2 < num3) {
+            System.out.println("CASE B");
+            do {                
+                x -= accuracy;
+                num3 = num2;
+                num2 = num1;
+                num1 = funct.getValueAtX(x - accuracy);
                 
-            case (1):
-                diffSign = 1;
-                while (diffSign == 1) {
-                    diffSign = sign(funct.getValueAtX(x + accuracy) - funct.getValueAtX(x));
-                    System.out.println("diffSign = " + diffSign + " , x = " + x);
-                    x-=accuracy;
-                }
-                System.out.println("The required section is ( " + (x+accuracy) + ", " + (x+2*accuracy)  + " )");
+            } while(num1 < num3);
+            //System.out.println(x);
+            System.out.println("Interval: (" + (x - accuracy) + " , " + (x + accuracy) + ")");
+        } else {
+            System.out.println("CASE D");
+            System.out.println("THIS ELSE SHOULD NOT BE REACHED");
         }
-    }
-    public static int sign(double x) {
-        if (x > 0) {
-            return 1;
-        }
-        if (x == 0) {
-            return 0;
-        }
-        if (x < 0) {
-            return -1;
-        }
-        return 2;
     }
 }
