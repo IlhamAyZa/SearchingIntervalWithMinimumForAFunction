@@ -1,14 +1,28 @@
 package posection;
 
-public class GoldenRatio {
-    public static double golden(int n) {
-        if (n == 0) return 1;
-        return 1.0 + 1.0 / golden(n-1);
+class GoldenRatio{
+    
+    final double PHI = (1 + Math.sqrt(5)) / 2;
+    
+    double f(double x){
+        return Math.pow(x + 1, 3) + 5 * Math.pow(x, 2);
     }
-
-    public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
-        System.out.println(golden(n));
+    
+    double findMin(double a, double b, double e){
+        double x1, x2;
+        while (true){
+            x1 = b - (b - a) / PHI;
+            x2 = a + (b - a) / PHI;
+            if (f(x1) >= f(x2)){
+                a = x1;
+            }
+            else{
+                b = x2;
+            }
+            if (Math.abs(b - a) < e){
+                break;
+            }
+        }
+        return (a + b) / 2;
     }
-
 }
